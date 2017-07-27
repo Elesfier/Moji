@@ -1,0 +1,24 @@
+
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "removeComments": true,
+        "noImplicitAny": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "typeRoots": [
+            "node_modules/@types/",
+            "app/client/node_modules/@types/",
+            "dist/client/node_modules/@types/"
+        ]
+    },
+    "exclude": [
+        "node_modules/*",
+        "app/client/node_modules/*",
+        "dist/client/node_modules/*"
+    ]
+}

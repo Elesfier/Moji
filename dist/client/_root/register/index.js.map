@@ -1,0 +1,1 @@
+{"version":3,"sources":["client/_root/register/index.ts"],"names":[],"mappings":";;;;;AACC,0CAAqC","file":"index.js","sourcesContent":["\n﻿export * from './register.component';\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["server/_common/enum/permission.enum.ts"],"names":[],"mappings":";;AACa,QAAA,WAAW,GAAG;IACzB,KAAK;IACL,QAAQ;CACT,CAAC","file":"permission.enum.js","sourcesContent":["\nexport const Permissions = [\n  'URL',\n  'INSIDE'\n];\n"]}

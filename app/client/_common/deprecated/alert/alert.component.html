@@ -1,0 +1,1 @@
+﻿<div *ngIf="message" style="margin: 0px; padding: 6px;" [ngClass]="{ 'alert clearfix': message, 'alert-success': message.type === 'success', 'alert-danger': message.type === 'error' }">{{message.text}}<a (click)="onClickClose()" class="close">×</a></div>

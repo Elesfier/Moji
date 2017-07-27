@@ -1,0 +1,399 @@
+
+<simple-modal
+  #mainModal
+  [title]="model['title']"
+  (on-show)="fetchData($event)"
+  (on-hide)="resetData($event)"
+  [on-start-load]="true"
+  [data-backdrop]="'static'">
+  <simple-modal-body>
+
+      <simple-modal-tab
+        name='Details'>
+        <simple-form
+          [bind]="model">
+          <simple-text-area
+            [label]="'Description'"
+            [rows]="19"
+            [placeholder]="'description...'"
+            [bind]="'description'">
+          </simple-text-area>
+        </simple-form>
+      </simple-modal-tab>
+
+      <simple-modal-tab
+        *ngIf="model['hasList']"
+        name='List'>
+        <simple-border>
+          <simple-table
+            #noteListTable
+            [url]="'/archive/note/'+id"
+            [max-height]="330"
+            [min-height]="330"
+            [bind]="model"
+            [bind-key]="'notes'"
+            [show-header]="false"
+            [header]="[
+              { size: [1,1,1,1,1] },
+              { size: [7,7,7,7,7] },
+              { size: [1,1,1,1,1] },
+              { size: [2,2,2,2,2] },
+              { size: [1,1,1,1,1] }
+            ]"
+            [additionals]="{
+              '3' : { content: 'Note', type: 'button', event: 'note' },
+              '4' : { type: 'remove-button', event: 'remove' }
+            }"
+            [events]="{
+              'note' : showNote.bind(this),
+              'remove' : removeNote.bind(this)
+            }">
+          </simple-table>
+        </simple-border>
+        <simple-border>
+          <simple-form
+            [bind]="note">
+            <simple-column
+              [padding]="[0,0]"
+              [size]="[12,4,4,4,4]">
+              <simple-text-input
+                [placeholder]="'note name...'"
+                [bind]="'name'"
+                [label]="'Name'">
+              </simple-text-input>
+            </simple-column>
+            <simple-column-space
+              [size]="[0,1,1,1,1]">
+            </simple-column-space>
+            <simple-column
+              [padding]="[0,0]"
+              [break]="[1,0,0,0,0]"
+              [size]="[8,4,4,4,4]">
+              <simple-text-input
+                [placeholder]="'link...'"
+                [bind]="'link'"
+                [label]="'Link'">
+              </simple-text-input>
+            </simple-column>
+            <simple-column-space
+              [size]="[1,1,1,1,1]">
+            </simple-column-space>
+            <simple-column
+              [padding]="[0,0]"
+              [break]="[1,0,0,0,0]"
+              [size]="[3,2,2,2,2]">
+              <simple-button
+                [look]="'default'"
+                [button-label]="'Add'"
+                (on-click)="addNote($event)">
+              </simple-button>
+            </simple-column>
+          </simple-form>
+        </simple-border>
+      </simple-modal-tab>
+
+      <simple-modal-tab
+        *ngIf="model['hasFiles']"
+        name='Files'>
+        <simple-border>
+          <simple-table
+            #filesListTable
+            [url]="'/archive/files/'+id"
+            [max-height]="330"
+            [min-height]="330"
+            [show-header]="false"
+            [header]="[
+              { size: [9,9,9,9,9] },
+              { size: [2,2,2,2,2] },
+              { size: [1,1,1,1,1] }
+            ]"
+            [additionals]="{
+              '1' : { content: 'Download', type: 'button', event: 'download' },
+              '2' : { content: '', type: 'remove-button', event: 'remove' }
+            }"
+            [events]="{
+              'download' : downloadFile.bind(this),
+              'remove' : removeFile.bind(this)
+            }">
+          </simple-table>
+        </simple-border>
+        <simple-border>
+          <simple-column
+            [padding]="[0,0]"
+            [size]="[8,9,9,9,9]">
+            <simple-file
+              #archiveFilesUploader
+              [url]="'/archive/files/'+id"
+              [fieldname]="'archiveFiles'"
+              [width-name]="80">
+            </simple-file>
+          </simple-column>
+          <simple-column-space
+            [size]="[1,1,1,1,1]">
+          </simple-column-space>
+          <simple-column
+            [padding]="[0,0]"
+            [size]="[3,2,2,2,2]">
+            <simple-button
+              [look]="'default'"
+              [button-label]="'Add'"
+              (on-click)="addFile($event)">
+            </simple-button>
+          </simple-column>
+        </simple-border>
+      </simple-modal-tab>
+
+      <simple-modal-tab
+        name='Settings'>
+        <simple-form
+          [bind]="model">
+
+          <simple-column
+            [padding]="[0,0]"
+            [size]="[12,12,12,12,12]">
+            <simple-text-input
+              [placeholder]="'title...'"
+              [bind]="'title'"
+              [label]="'Title'">
+            </simple-text-input>
+          </simple-column>
+
+          <simple-column-space
+            [padding]="8"
+            [size]="[12,12,12,12,12]">
+          </simple-column-space>
+
+          <simple-column
+            [size]="[12,12,12,12,12]">
+            <simple-column
+              [size]="[6,3,3,3,3]">
+
+              <simple-checkbox
+                [bind]="'newHasFiles'"
+                [label]="'Has files'"
+                (on-change)="onChangeCheckboxHasFiles($event)">
+              </simple-checkbox>
+
+            </simple-column>
+            <simple-column
+              [size]="[6,3,3,3,3]">
+
+              <simple-checkbox
+                [bind]="'newHasList'"
+                [label]="'Has list'"
+                (on-change)="onChangeCheckboxHasList($event)">
+              </simple-checkbox>
+
+            </simple-column>
+            <simple-column
+              [size]="[6,3,3,3,3]">
+
+              <simple-checkbox
+                [bind]="'newIsCheckList'"
+                [disabled]="!model['newHasList']"
+                [label]="'Is check list'"
+                (on-change)="onChangeCheckboxIsCheckList($event)">
+              </simple-checkbox>
+
+            </simple-column>
+            <simple-column
+              [size]="[6,3,3,3,3]">
+
+              <simple-checkbox
+                [bind]="'isHidden'"
+                [label]="'Is Hidden'"
+                (on-change)="onChangeCheckboxIsHidden($event)">
+              </simple-checkbox>
+
+            </simple-column>
+          </simple-column>
+
+          <simple-column-space
+            [padding]="5"
+            [size]="[12,12,12,12,12]">
+          </simple-column-space>
+
+          <simple-column
+            [padding]="[0,0]"
+            [size]="[12,12,12,12,12]">
+            <b>You must first save archive to show/hide list or files after checked checkbox.</b>
+          </simple-column>
+
+        </simple-form>
+      </simple-modal-tab>
+
+  </simple-modal-body>
+  <simple-modal-footer>
+
+    <simple-column-space
+      [size]="[3,3,3,3,3]">
+    </simple-column-space>
+    <simple-column
+      [padding]="[0,9]"
+      [size]="[3,3,3,3,3]">
+      <simple-button
+        [look]="'default'"
+        [button-label]="'Remove'"
+        (on-click)="removeArchive($event)">
+      </simple-button>
+    </simple-column>
+    <simple-column
+      [padding]="[0,9]"
+      [size]="[3,3,3,3,3]">
+      <simple-button
+        [look]="'default'"
+        [button-label]="'Save'"
+        (on-click)="saveArchive($event)">
+      </simple-button>
+    </simple-column>
+    <simple-column
+      [padding]="[0,0]"
+      [size]="[3,3,3,3,3]">
+      <simple-button
+        [look]="'default'"
+        [button-label]="'Close'"
+        (on-click)="onCloseMainModal($event)">
+      </simple-button>
+    </simple-column>
+
+  </simple-modal-footer>
+</simple-modal>
+
+<simple-modal
+  #removeModal
+  [show-header]="false"
+  [size]="'small'"
+  [min-height]="70"
+  [z-index]="1"
+  [data-backdrop]="'false'">
+  <simple-modal-body>
+    <p>Are you sure you want to <b>remove</b> this archive?</p>
+    <br>
+    <simple-form
+      [bind]="model">
+      <simple-text-input
+        [placeholder]="'archive name...'"
+        [bind]="'archiveToRemove'"
+        [label]="'Type'">
+      </simple-text-input>
+    </simple-form>
+  </simple-modal-body>
+  <simple-modal-footer>
+    <simple-column-space
+      [size]="[5,5,5,5,5]">
+    </simple-column-space>
+    <simple-column
+      [padding]="[0,0]"
+      [size]="[3,3,3,3,3]">
+      <simple-button
+        [look]="'default'"
+        [button-label]="'Cancel'"
+        (on-click)="onCancelRemove($event)">
+      </simple-button>
+    </simple-column>
+    <simple-column
+      [padding]="[9,0]"
+      [size]="[3,3,3,3,3]">
+      <simple-button
+        [look]="'default'"
+        [button-label]="'Remove'"
+        [disabled]="!(model.archiveToRemove == model.title)"
+        (on-click)="onRemoveModal($event)">
+      </simple-button>
+    </simple-column>
+    <simple-column-space
+      [size]="[1,1,1,1,1]">
+    </simple-column-space>
+  </simple-modal-footer>
+</simple-modal>
+
+<simple-modal
+  #saveModal
+  [show-header]="false"
+  [size]="'small'"
+  [min-height]="70"
+  [z-index]="1"
+  [data-backdrop]="'false'">
+  <simple-modal-body>
+    <p>Are you sure you want to <b>save</b> this archive?</p>
+  </simple-modal-body>
+  <simple-modal-footer>
+    <simple-column-space
+      [size]="[6,6,6,6,6]">
+    </simple-column-space>
+    <simple-column
+      [padding]="[0,0]"
+      [size]="[3,3,3,3,3]">
+      <simple-button
+        [look]="'default'"
+        [button-label]="'Cancel'"
+        (on-click)="onCancelSave($event)">
+      </simple-button>
+    </simple-column>
+    <simple-column
+      [padding]="[9,0]"
+      [size]="[3,3,3,3,3]">
+      <simple-button
+        [look]="'default'"
+        [button-label]="'Save'"
+        (on-click)="onSaveModal($event)">
+      </simple-button>
+    </simple-column>
+  </simple-modal-footer>
+</simple-modal>
+
+<simple-modal
+  #noteModal
+  [title]="model.noteTitle"
+  [min-height]="380"
+  [z-index]="1"
+  [data-backdrop]="'false'">
+  <simple-modal-body>
+    <simple-form
+      [bind]="model">
+      <simple-text-input
+        [placeholder]="'title...'"
+        [bind]="'noteTitle'"
+        [label]="'Title'">
+      </simple-text-input>
+      <simple-column-space
+        [padding]="10"
+        [size]="[0,0,0,0,0]">
+      </simple-column-space>
+      <simple-text-area
+        [label]="'Note'"
+        [rows]="10"
+        [placeholder]="'note...'"
+        [bind]="'noteContent'">
+      </simple-text-area>
+      <simple-text-input
+        [placeholder]="'link...'"
+        [bind]="'noteLink'"
+        [label]="'Link'">
+      </simple-text-input>
+    </simple-form>
+  </simple-modal-body>
+  <simple-modal-footer>
+    <simple-column-space
+      [size]="[6,6,6,6,6]">
+    </simple-column-space>
+    <simple-column
+      [padding]="[0,0]"
+      [size]="[3,3,3,3,3]">
+      <simple-button
+        [look]="'default'"
+        [button-label]="'Cancel'"
+        (on-click)="onCancelNote($event)">
+      </simple-button>
+    </simple-column>
+    <simple-column
+      [padding]="[9,0]"
+      [size]="[3,3,3,3,3]">
+      <simple-button
+        [look]="'default'"
+        [button-label]="'Save'"
+        (on-click)="onSaveNoteModal($event)">
+      </simple-button>
+    </simple-column>
+  </simple-modal-footer>
+</simple-modal>

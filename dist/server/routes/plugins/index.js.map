@@ -1,1 +1,0 @@
-{"version":3,"sources":["server/routes/plugins/index.ts"],"names":[],"mappings":";;AACA,iDAA0C;AAE/B,QAAA,YAAY,GAAG,EAAE,CAAC;AAE7B,oBAAY,CAAC,IAAI,CAAC,uBAAO,CAAC,CAAC","file":"index.js","sourcesContent":["\nimport { plugins } from './plugins.route';\n\nexport let pluginsRoute = [];\n\npluginsRoute.push(plugins);\n"]}

@@ -1,1 +1,0 @@
-{"version":3,"sources":["server/_common/enum/status.enum.ts"],"names":[],"mappings":";;AACa,QAAA,MAAM,GAAG;IACpB,MAAM;IACN,MAAM;CACP,CAAC","file":"status.enum.js","sourcesContent":["\nexport const Status = [\n  'FREE',\n  'COST'\n];\n"]}

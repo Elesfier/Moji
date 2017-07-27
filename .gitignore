@@ -1,5 +1,4 @@
 
-dist
 *.log
 package-lock.json
 app/client/package-lock.json

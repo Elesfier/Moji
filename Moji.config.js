@@ -7,8 +7,8 @@ module.exports = function () {
     "ip": "",
     "test_ip": "0.0.0.0",
     "mongoURL": "",
-    "test_mongoURL": "",
-    "jwt_token_secret": ""
+    "test_mongoURL": "", //[XXX]: It is needed
+    "jwt_token_secret": "" //[XXX]: It is needed
   };
 
   return config;

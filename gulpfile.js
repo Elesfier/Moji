@@ -12,9 +12,10 @@ gulp.task('clean', function () {
 });
 
 gulp.task('serve', ['build'], function (cb) {
-  //gulp.watch(['app/**/*'], ['compile', 'copy:assets']).on('change',function(){
+  gulp.watch(['app/**/*'], ['compile', 'copy:assets']).on('change',function(){
     /*[TODO]: restart of app.js*/
-  //});
+  });
+  //[TODO]: repeat
   exec('node dist/app.js', function (err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);

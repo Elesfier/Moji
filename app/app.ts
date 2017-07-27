@@ -10,6 +10,7 @@ const ip: string = process.env.MOJI_IP
               || config.test_ip;
 
 const port: number = process.env.MOJI_PORT
+				|| process.env.PORT
                 || config.port
                 || config.test_port;
 

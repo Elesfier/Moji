@@ -11,9 +11,17 @@ import { jQuery } from '../../_common/index';
 
 export class SiteComponent
 {
+  private rootParent = null;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router) {}
+
+  onClickMoji()
+  {
+    //FIXME Rozwiazanie tymczasowe
+    if (this.rootParent) this.rootParent.loading = true;
+  }
 
   ngAfterViewInit ()
   {

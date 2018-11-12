@@ -1,6 +1,6 @@
 
+dist
+Moji.config.js
 *.log
-package-lock.json
-app/client/package-lock.json
 node_modules/
 app/client/node_modules/

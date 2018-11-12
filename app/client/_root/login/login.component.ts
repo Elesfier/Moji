@@ -25,7 +25,9 @@ export class LoginComponent
 
     login ()
     {
-      //this.contentLoader.start();
+      //FIXME Rozwiazanie tymczasowe
+      if (this.rootParent) this.rootParent.loading = true;
+
       this.httpService.post('/service/login',{
           login: this.model.username,
           password: this.model.password
@@ -39,12 +41,16 @@ export class LoginComponent
               else
               {
                 this.alertService.warning('Wrong Username or Email or Password.');
+                
+                //FIXME Rozwiazanie tymczasowe
+                if (this.rootParent) this.rootParent.loading = false;
               }
-              //this.contentLoader.stop();
           },
           error => {
               this.alertService.error(error.message);
-              //this.contentLoader.stop();
+
+              //FIXME Rozwiazanie tymczasowe
+              if (this.rootParent) this.rootParent.loading = false;
           }
       );
     }

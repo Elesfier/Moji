@@ -94,3 +94,27 @@ rss.patch('/rss/:id', authorization({
 });
 
 ////////////////////////////////////////////////////////////////////////////////
+
+rss.get('/rss/list/:id', authorization({
+
+  global: { mustBeLogged: true }
+
+}),(request: Request, response: Response) => {
+
+  let responseRSSList = { rows: [] };
+
+  //TODO zwraca liste
+  responseRSSList.rows.push({
+    data : { id: '1', index: '3' },
+    columns: [
+      { content: 'checked', type: 'center' },
+      { content: 'aaaa' },
+      { content: 'llll', type: 'link' }
+    ]
+  });
+
+  response.json(responseRSSList);
+
+});
+
+////////////////////////////////////////////////////////////////////////////////

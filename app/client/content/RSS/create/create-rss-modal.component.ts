@@ -25,7 +25,7 @@ export class CreateRSSModalComponent
     //[TODO]: validation for title
     if (this.model['title'] == undefined) return;
     this.modal.$loader.start();
-    this.httpService.put('/archive', this.model).subscribe(
+    this.httpService.put('/rss', this.model).subscribe(
       response => {
         //[TODO] response management
         this.afterAddRSS.emit(undefined);

@@ -53,7 +53,7 @@ export class DetailsRSSModalComponent
   fetchData (id: any)
   {
     this.id = id;
-    this.httpService.get('/archive/'+id).subscribe(
+    this.httpService.get('/rss/'+id).subscribe(
       model => {
 
         //[REFACTOR]: jak bym przekazywal to by referencje sie zatracily
@@ -138,7 +138,7 @@ export class DetailsRSSModalComponent
   {
     this.removeModal.close();
     this.modal.$loader.start();
-    this.httpService.delete('/archive/'+this.id).subscribe(
+    this.httpService.delete('/rss/'+this.id).subscribe(
       response => {
         this.afterModify.emit(undefined);
         this.modal.close();
@@ -159,7 +159,7 @@ export class DetailsRSSModalComponent
     this.model.notes.rows.forEach((row, index) => { row.data.index = index; });
     this.modal.$loader.start();
     //[FIXME]: send model without header
-    this.httpService.patch('/archive/'+this.id, this.model).subscribe(
+    this.httpService.patch('/rss/'+this.id, this.model).subscribe(
       response => {
         this.afterModify.emit(undefined);
         this.modal.close();
@@ -182,7 +182,7 @@ export class DetailsRSSModalComponent
 
   downloadFile (fileData: any)
   {
-    //[XXX]: chyba nie bedzie nam potrzebne this.id
+    //[REMOVE]
     this.httpService.download('/archive/files/download/'+fileData.id).subscribe(
       response => {
         //[TODO!]: downloading the file
@@ -214,7 +214,7 @@ export class DetailsRSSModalComponent
 
   removeFile (fileData: any)
   {
-    //[XXX]: chyba nie bedzie nam potrzebne this.id
+    //[REMOVE]: chyba nie bedzie nam potrzebne this.id
     this.httpService.delete('/archive/files/'+fileData.id).subscribe(
       response => {
         //[TODO] response management

@@ -10,15 +10,14 @@ import { CreateRSSModalComponent } from './create/create-rss-modal.component';
 })
 export class RSSComponent implements AfterViewInit
 {
-
-  @ViewChild('rssTable') rssTable: SimpleTableComponent;
+  @ViewChild('rssTable')
+  rssTable: SimpleTableComponent;
 
   @ViewChild(DetailsRSSModalComponent)
   detailsRSSModal: DetailsRSSModalComponent;
 
   @ViewChild(CreateRSSModalComponent)
   createRSSModal: CreateRSSModalComponent;
-
 
   showDetails (rowData: any)
   {

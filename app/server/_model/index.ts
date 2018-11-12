@@ -20,3 +20,7 @@ export { IArchive, ArchiveModel } from './archive.model';
 //export { IProject, ProjectModel } from './project.model';
 
 //export { IType, TypeModel } from './type.model';
+
+export { IRSS, RSSModel } from './rss.model';
+
+export { IRSSList, RSSListModel } from './rssList.model';

@@ -1,6 +1,6 @@
 
 import { Router, Response, Request } from 'express';
-import { IArchive, ArchiveModel, ListModel, IList, authorization } from '../index';
+import { IRSS, RSSModel, RSSListModel, IRSSList, authorization } from '../index';
 
 export const rss = Router();
 

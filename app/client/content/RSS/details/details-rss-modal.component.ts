@@ -1,6 +1,6 @@
 
 import { Component, ViewChild, Output, Input, EventEmitter } from '@angular/core';
-import { SimpleModalComponent, SimpleTableComponent, SimpleFileComponent } from '../../index';
+import { SimpleModalComponent, SimpleTableComponent } from '../../index';
 import { HttpService } from '../../index';
 import 'rxjs/Rx' ;
 
@@ -17,33 +17,21 @@ export class DetailsRSSModalComponent
   @ViewChild('saveModal')
   public saveModal: SimpleModalComponent;
 
-  @ViewChild('noteModal')
-  public noteModal: SimpleModalComponent;
-
   @ViewChild('removeModal')
   public removeModal: SimpleModalComponent;
 
-  @ViewChild('archiveFilesUploader')
-  private archiveFilesUploader: SimpleFileComponent;
-
-  @ViewChild('noteListTable')
-  private noteListTable: SimpleTableComponent;
-
-  @ViewChild('filesListTable')
-  private filesListTable: SimpleTableComponent;
+  @ViewChild('rssListTable')
+  public rssListTable: SimpleTableComponent;
 
   @Output('after-modify') afterModify = new EventEmitter();
 
   private id: any = undefined;
 
-  private fileGuard: boolean = false;
-  private listGuard: boolean = false;
-
   //[XXX]: options for editing whole list, but this is optional
-  private showingNote: any = undefined;
-  private note: any = {};
+  //private showingNote: any = undefined;
+  //private note: any = {};
 
-  private model: any = { title: 'loading...', notes: {} };
+  private model: any = { title: 'loading...', rssList: {} };
 
   constructor (private httpService: HttpService) {}
 
@@ -55,19 +43,15 @@ export class DetailsRSSModalComponent
     this.id = id;
     this.httpService.get('/rss/'+id).subscribe(
       model => {
-
+        console.log(model);
         //[REFACTOR]: jak bym przekazywal to by referencje sie zatracily
         Object.keys(model).forEach((key: any) => {
-          //[FIXME]: can see change
-          if (key == 'hasList')
-            this.model['newHasList'] = model[key];
-          if (key == 'hasFiles')
-            this.model['newHasFiles'] = model[key];
-          if (key == 'isCheckList')
-            this.model['newIsCheckList'] = model[key];
           this.model[key] = model[key];
         });
         this.modal.$loader.stop();
+        if (this.rssListTable){
+          this.rssListTable.fetch({});
+        }
       },
       error => {
         //[TODO] errors management
@@ -76,27 +60,12 @@ export class DetailsRSSModalComponent
     );
   }
 
+/*
   ngAfterViewChecked ()
   {
-    //[FIXME]: better async do
-    if (this.model['hasList'] && !this.listGuard)
-    {
-      this.listGuard = true;
-      this.noteListTable.fetch();
-    }
-    if (this.model['hasFiles'] && !this.fileGuard)
-    {
-      this.fileGuard = true;
-      this.filesListTable.fetch();
-    }
-  }
 
-  onChangeCheckboxHasFiles (value: any)
-  {
-    //[IDEA]: control the files inside the modal
-    //if (value) this.fileGuard = false;
   }
-
+*/
   onChangeCheckboxHasList (value: any)
   {
     //[IDEA]: control the list inside the modal
@@ -129,11 +98,6 @@ export class DetailsRSSModalComponent
     this.removeModal.close();
   }
 
-  onCancelNote ()
-  {
-    this.noteModal.close();
-  }
-
   onRemoveModal ()
   {
     this.removeModal.close();
@@ -153,8 +117,8 @@ export class DetailsRSSModalComponent
   onSaveModal ()
   {
     this.saveModal.close();
-    //[TODO]: validation for title
-    if (this.model['title'] == undefined) return;
+    /*
+    if (this.model['name'] == undefined) return;
     //[REMOVE][FIXME]: fix the index bug
     this.model.notes.rows.forEach((row, index) => { row.data.index = index; });
     this.modal.$loader.start();
@@ -169,8 +133,10 @@ export class DetailsRSSModalComponent
         console.error(error);
       }
     );
+    */
   }
 
+  /*
   onSaveNoteModal ()
   {
     //[FIXME]: loading on modify note.
@@ -179,54 +145,9 @@ export class DetailsRSSModalComponent
     this.showingNote.columns[2]['content'] = this.model['noteLink'];
     this.noteModal.close();
   }
+  */
 
-  downloadFile (fileData: any)
-  {
-    //[REMOVE]
-    this.httpService.download('/archive/files/download/'+fileData.id).subscribe(
-      response => {
-        //[TODO!]: downloading the file
-        let blob = new Blob([response], { type: 'text/csv' });
-        let url = window.URL.createObjectURL(blob);
-        window.open(url);
-      },
-      error => {
-        //[TODO] errors management
-        console.error(error);
-      }
-    );
-  }
-
-  addFile ()
-  {
-    if (this.archiveFilesUploader.isReady()) return;
-    this.archiveFilesUploader.upload().subscribe(
-      response => {
-        //[TODO]: response management
-        console.log(response);
-      },
-      error => {
-        //[TODO]: error management
-        console.error(error);
-      }
-    );
-  }
-
-  removeFile (fileData: any)
-  {
-    //[REMOVE]: chyba nie bedzie nam potrzebne this.id
-    this.httpService.delete('/archive/files/'+fileData.id).subscribe(
-      response => {
-        //[TODO] response management
-        this.fileGuard = false;
-      },
-      error => {
-        //[TODO] errors management
-        console.error(error);
-      }
-    );
-  }
-
+  /*
   showNote (noteData: any)
   {
     this.showingNote = this.model.notes.rows[noteData.index];
@@ -235,9 +156,11 @@ export class DetailsRSSModalComponent
     this.model['noteLink'] = this.showingNote.columns[2].content;
     this.noteModal.show();
   }
+  */
 
   addNote ()
   {
+    /*
     if (!this.note['name']) return;
     this.model.notes.rows.push({
       data : { note: '', index: this.model.notes.rows.length },
@@ -252,24 +175,27 @@ export class DetailsRSSModalComponent
     });
     this.note['name'] = '';
     this.note['link'] = '';
+    */
   }
 
-  removeNote (rowData: any)
+  removeRSSItem (rowData: any)
   {
+    /*
     this.model.notes.rows.splice(rowData.index, 1);
     let l = this.model.notes.rows.length;
     for (let i = rowData.index; i < l; ++i)
     {
       this.model.notes.rows[i].data.index = this.model.notes.rows[i].data.index - 1
     }
+    */
   }
 
-  saveArchive ()
+  saveRSS ()
   {
     this.saveModal.show();
   }
 
-  removeArchive ()
+  removeRSS ()
   {
     this.removeModal.show();
   }
@@ -277,9 +203,8 @@ export class DetailsRSSModalComponent
   resetData ()
   {
     Object.keys(this.model).forEach((key) => { delete this.model[key]; });
-    this.fileGuard = false;
-    this.listGuard = false;
-    this.model.title = 'loading...';
-    this.model.notes = {};
+    this.rssListTable.clean();
+    this.model.name = 'loading...';
+    this.model.rssList = {};
   }
 }

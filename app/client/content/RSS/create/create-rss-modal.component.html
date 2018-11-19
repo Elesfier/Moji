@@ -1,7 +1,8 @@
 
 <simple-modal
   #modal
-  [title]="'New Archive'"
+  [title]="'New RSS'"
+  [min-height]="90"
   (on-hide)="resetData($event)"
   [data-backdrop]="'static'">
   <simple-modal-body>
@@ -13,9 +14,9 @@
         <simple-column
           [size]="[12,12,12,12,12]">
           <simple-text-input
-            [placeholder]="'title...'"
-            [bind]="'title'"
-            [label]="'Title'">
+            [placeholder]="'name...'"
+            [bind]="'name'"
+            [label]="'Name'">
           </simple-text-input>
         </simple-column>
 
@@ -26,49 +27,11 @@
 
         <simple-column
           [size]="[12,12,12,12,12]">
-          <simple-text-area
-            [label]="'Description'"
-            [rows]="14"
-            [placeholder]="'description...'"
-            [bind]="'description'">
-          </simple-text-area>
-        </simple-column>
-
-        <simple-column-space
-          [padding]="8"
-          [size]="[12,12,12,12,12]">
-        </simple-column-space>
-
-        <simple-column
-          [size]="[12,12,12,12,12]">
-          <simple-column
-            [size]="[6,4,4,4,4]">
-
-            <simple-checkbox
-              [bind]="'hasFiles'"
-              [label]="'Has files'">
-            </simple-checkbox>
-
-          </simple-column>
-          <simple-column
-            [size]="[6,4,4,4,4]">
-
-            <simple-checkbox
-              [bind]="'hasList'"
-              [label]="'Has list'">
-            </simple-checkbox>
-
-          </simple-column>
-          <simple-column
-            [size]="[6,4,4,4,4]">
-
-            <simple-checkbox
-              [disabled]="!model['hasList']"
-              [bind]="'isCheckList'"
-              [label]="'Is check list'">
-            </simple-checkbox>
-
-          </simple-column>
+          <simple-text-input
+            [placeholder]="'link...'"
+            [bind]="'rssLink'"
+            [label]="'RSS'">
+          </simple-text-input>
         </simple-column>
 
       </simple-form>
@@ -85,8 +48,8 @@
       [size]="[3,3,3,3,3]">
       <simple-button
         [look]="'default'"
-        [button-label]="'Save'"
-        (on-click)="saveArchive($events)">
+        [button-label]="'Add'"
+        (on-click)="addRSS($events)">
       </simple-button>
     </simple-column>
 

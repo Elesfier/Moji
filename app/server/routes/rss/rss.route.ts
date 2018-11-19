@@ -70,12 +70,7 @@ rss.get('/rss/:id', authorization({
 
   //TODO pobierany jest element
   response.json({
-    title: 'blabla2',
-    description: 'KABUNda',
-    hasList: false,
-    hasFiles: false,
-    isCheckList: false,
-    isHidden: false
+    name: 'blabla2'
   });
 
 });

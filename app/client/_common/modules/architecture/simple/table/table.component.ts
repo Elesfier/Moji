@@ -75,4 +75,9 @@ export class SimpleTableComponent implements AfterViewInit
   {
     this.afterViewChecked.emit(undefined);
   }
+
+  public clean ()
+  {
+    this.model = { rows: [] };
+  }
 }

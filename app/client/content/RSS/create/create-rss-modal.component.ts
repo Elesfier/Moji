@@ -18,12 +18,13 @@ export class CreateRSSModalComponent
 
   constructor (private httpService: HttpService) {}
 
-  //[IDEA]: zeby byly archiwa podzielone na kategorie
-
-  saveArchive ()
+  addRSS ()
   {
     //[TODO]: validation for title
-    if (this.model['title'] == undefined) return;
+    if (this.model['rssLink'] == undefined) {
+      console.log('RSS LINK is needed!')
+      return;
+    }
     this.modal.$loader.start();
     this.httpService.put('/rss', this.model).subscribe(
       response => {

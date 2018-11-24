@@ -90,6 +90,32 @@ rss.patch('/rss/:id', authorization({
 
 ////////////////////////////////////////////////////////////////////////////////
 
+rss.post('/rss-update', authorization({
+
+  global: { mustBeLogged: true }
+
+}),(request: Request, response: Response) => {
+
+  //TODO aktualizacja list rss
+  response.handler({ type: 'RSS_UPDATE_DONE' });
+
+});
+
+////////////////////////////////////////////////////////////////////////////////
+
+rss.get('/rss-first/:id', authorization({
+
+  global: { mustBeLogged: true }
+
+}),(request: Request, response: Response) => {
+
+  //TODO pobranie pierwszego elementu rss
+  response.json({ url: 'https://www.google.pl/' });
+
+});
+
+////////////////////////////////////////////////////////////////////////////////
+
 rss.get('/rss/list/:id', authorization({
 
   global: { mustBeLogged: true }
@@ -100,11 +126,29 @@ rss.get('/rss/list/:id', authorization({
 
   //TODO zwraca liste
   responseRSSList.rows.push({
-    data : { id: '1', index: '3' },
+    data : { index: '0' },
     columns: [
-      { content: 'checked', type: 'center' },
+      { content: true, type: 'checkbox' },
       { content: 'aaaa' },
       { content: 'llll', type: 'link' }
+    ]
+  });
+
+  responseRSSList.rows.push({
+    data : { index: '1' },
+    columns: [
+      { content: false, type: 'checkbox' },
+      { content: 'bbbb' },
+      { content: 'dddd', type: 'link' }
+    ]
+  });
+
+  responseRSSList.rows.push({
+    data : { index: '2' },
+    columns: [
+      { content: true, type: 'checkbox' },
+      { content: 'cccc' },
+      { content: 'hhhh', type: 'link' }
     ]
   });
 

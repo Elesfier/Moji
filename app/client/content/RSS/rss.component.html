@@ -22,6 +22,17 @@
       </simple-button>
     </simple-column>
 
+    <simple-column
+      [padding]="[0,0]"
+      [size]="[3,3,3,3,3]">
+      <simple-button
+        [look]="'default'"
+        [width]="70"
+        [button-label]="'Update'"
+        (on-click)="update($events)">
+      </simple-button>
+    </simple-column>
+
   </simple-border>
 </simple-row>
 
@@ -32,15 +43,20 @@
       [url]="'/rss'"
       [min-height]="590"
       [header]="[
-        { content: 'Name', size: [8,8,8,8,8] },
+        { content: 'Name', size: [6,6,6,6,6] },
         { content: 'Check', size: [1,1,1,1,1] },
         { content: 'Total', size: [1,1,1,1,1] },
+        { content: '', size: [2,2,2,2,2] },
         { content: '', size: [2,2,2,2,2] }
       ]"
       [additionals]="{
-        '3' : { content: 'Details', type: 'button', event: 'details' }
+        '3' : { content: 'Get First', type: 'button', event: 'getFirst' },
+        '4' : { content: 'Details', type: 'button', event: 'details' }
       }"
-      [events]="{ 'details' : showDetails.bind(this) }">
+      [events]="{
+        'details' : showDetails.bind(this),
+        'getFirst' : getFirst.bind(this)
+      }">
     </simple-table>
   </simple-border>
 </simple-row>

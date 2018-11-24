@@ -31,7 +31,7 @@ export class DetailsRSSModalComponent
   //private showingNote: any = undefined;
   //private note: any = {};
 
-  private model: any = { title: 'loading...', rssList: {} };
+  private model: any = { name: 'loading...', rssList: {}, newName: null };
 
   constructor (private httpService: HttpService) {}
 
@@ -43,7 +43,6 @@ export class DetailsRSSModalComponent
     this.id = id;
     this.httpService.get('/rss/'+id).subscribe(
       model => {
-        console.log(model);
         //[REFACTOR]: jak bym przekazywal to by referencje sie zatracily
         Object.keys(model).forEach((key: any) => {
           this.model[key] = model[key];
@@ -66,22 +65,6 @@ export class DetailsRSSModalComponent
 
   }
 */
-  onChangeCheckboxHasList (value: any)
-  {
-    //[IDEA]: control the list inside the modal
-    //if (value) this.listGuard = false;
-  }
-
-  onChangeCheckboxIsCheckList (value: any)
-  {
-    //[IDEA]: control the check list inside the modal
-    //this.listGuard = false;
-  }
-
-  onChangeCheckboxIsHidden (value: any)
-  {
-    //[REMOVE]
-  }
 
   onCloseMainModal ()
   {
@@ -116,13 +99,12 @@ export class DetailsRSSModalComponent
 
   onSaveModal ()
   {
-    this.saveModal.close();
-    /*
     if (this.model['name'] == undefined) return;
     //[REMOVE][FIXME]: fix the index bug
-    this.model.notes.rows.forEach((row, index) => { row.data.index = index; });
+    this.model.rssList.rows.forEach((row, index) => { row.data.index = index; });
     this.modal.$loader.start();
     //[FIXME]: send model without header
+    this.saveModal.close();
     this.httpService.patch('/rss/'+this.id, this.model).subscribe(
       response => {
         this.afterModify.emit(undefined);
@@ -133,61 +115,16 @@ export class DetailsRSSModalComponent
         console.error(error);
       }
     );
-    */
-  }
-
-  /*
-  onSaveNoteModal ()
-  {
-    //[FIXME]: loading on modify note.
-    this.showingNote.data['note'] = this.model['noteContent'];
-    this.showingNote.columns[1]['content'] = this.model['noteTitle'];
-    this.showingNote.columns[2]['content'] = this.model['noteLink'];
-    this.noteModal.close();
-  }
-  */
-
-  /*
-  showNote (noteData: any)
-  {
-    this.showingNote = this.model.notes.rows[noteData.index];
-    this.model['noteContent'] = this.showingNote.data.note;
-    this.model['noteTitle'] = this.showingNote.columns[1].content;
-    this.model['noteLink'] = this.showingNote.columns[2].content;
-    this.noteModal.show();
-  }
-  */
-
-  addNote ()
-  {
-    /*
-    if (!this.note['name']) return;
-    this.model.notes.rows.push({
-      data : { note: '', index: this.model.notes.rows.length },
-      columns: [
-        {
-          content: (this.model['isCheckList'])?(false):(String(this.model.notes.rows.length + 1)),
-          type: (this.model['isCheckList'])?('checkbox'):('center')
-        },
-        { content: this.note['name'] },
-        { content: this.note['link'], type: 'link' }
-      ]
-    });
-    this.note['name'] = '';
-    this.note['link'] = '';
-    */
   }
 
   removeRSSItem (rowData: any)
   {
-    /*
-    this.model.notes.rows.splice(rowData.index, 1);
-    let l = this.model.notes.rows.length;
+    this.model.rssList.rows.splice(rowData.index, 1);
+    let l = this.model.rssList.rows.length;
     for (let i = rowData.index; i < l; ++i)
     {
-      this.model.notes.rows[i].data.index = this.model.notes.rows[i].data.index - 1
+      this.model.rssList.rows[i].data.index = this.model.rssList.rows[i].data.index - 1;
     }
-    */
   }
 
   saveRSS ()
@@ -206,5 +143,6 @@ export class DetailsRSSModalComponent
     this.rssListTable.clean();
     this.model.name = 'loading...';
     this.model.rssList = {};
+    this.model.newName = null;
   }
 }

@@ -15,7 +15,7 @@ export class RootComponent
 
   private loading: boolean = true;
   private platformName: string = 'Copyright';
-  private copyrightYear: string = '2017-2018';
+  private copyrightYear: string = '2018';
   private author: string = 'Artur Szajdecki';
   private authorEmail: string = 'artur.szajdecki@gmail.com';
 

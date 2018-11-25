@@ -37,7 +37,7 @@ export class ContentComponent
 
   ngAfterViewInit ()
   {
-    this.$navigation.navigate('archive');
+    this.$navigation.navigate('RSS');
     this.$loader.start();
   }
 

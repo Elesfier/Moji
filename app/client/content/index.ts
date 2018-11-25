@@ -12,6 +12,7 @@ import { DetailsRSSModalComponent } from './RSS/details/details-rss-modal.compon
 import { CreateRSSModalComponent } from './RSS/create/create-rss-modal.component';
 
 export const ContentRoutes = [
+  /*
   {
     path: 'archive',
     component: ArchiveComponent
@@ -28,6 +29,7 @@ export const ContentRoutes = [
     path: 'plugins',
     component: PluginsComponent
   },
+  */
   {
     path: 'RSS',
     component: RSSComponent
